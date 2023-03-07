@@ -289,6 +289,9 @@ async def logout(request):
 
     return wp
 
+def main(argv=None):
+    jp.justpy(user_login)
 
 
-jp.justpy(user_login)
+if __name__ == "__main__":
+    main()
