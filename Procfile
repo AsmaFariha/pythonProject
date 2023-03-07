@@ -1,1 +1,1 @@
-web: gunicorn login:wsgi --log-file -
+web: python Main.py --heroku -d
