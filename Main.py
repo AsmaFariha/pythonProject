@@ -1,11 +1,10 @@
 import justpy as jp
 from pymongo import MongoClient
-import smtplib, ssl
+import smtplib , ssl
 
 button_classes = 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded m-2'
 input_classes = 'border m-2 p-2'
 session_data = {}
-
 
 @jp.SetRoute('/login')
 def user_login():
@@ -14,15 +13,12 @@ def user_login():
 
     form1 = jp.Form(a=wp, classes='border m-8 p-8 w-128 l-256')
 
-    user_label = jp.Label(text='User Name',
-                          classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
+    user_label = jp.Label(text='User Name', classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
     in1 = jp.Input(placeholder='User Name', a=form1, classes='form-input')
     user_label.for_component = in1
 
-    password_label = jp.Label(classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2',
-                              a=form1)
-    jp.Div(text='Password', classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2',
-           a=password_label)
+    password_label = jp.Label(classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2', a=form1)
+    jp.Div(text='Password', classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=password_label)
     jp.Input(placeholder='Password', a=password_label, classes='form-input', type='password')
 
     submit_button = jp.Input(value='Login', type='submit', a=form1, classes=button_classes)
@@ -36,12 +32,11 @@ def user_login():
 
     return wp
 
-
 @jp.SetRoute('/form_submitted')
 def form_submitted(request):
     wp = jp.WebPage()
     wp.display_url = '/verification'
-    # form_verification = jp.Form(a=wp, classes='border m-8 p-8 w-128 l-256')
+    #form_verification = jp.Form(a=wp, classes='border m-8 p-8 w-128 l-256')
     for field in session_data[request.session_id]:
         if field.type in ['text']:
             username = field.value
@@ -49,8 +44,7 @@ def form_submitted(request):
         if field.type in ['password']:
             passwordvalue = field.value
 
-    cluster = MongoClient(
-        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient("mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
     db = cluster["jobhuntbuddy"]
     collection = db["UserList"]
     collection_cache = db["cache"]
@@ -61,12 +55,12 @@ def form_submitted(request):
     def button_click_registration(self, msg):
         msg.page.redirect = "/registration"
 
-    text = "N"
+    text="N"
     results = collection.find({"_id": username})
     for result in results:
         if result["password"] == passwordvalue:
             text = "Verified"
-            collection_cache.insert_one({"_id": username})
+            collection_cache.insert_one({"_id":username})
             jp.Div(text='Thank you for login', a=wp, classes='text-xl m-2 p-2')
             button_div = jp.Div(classes='flex m-4 flex-wrap', a=wp)
             jp.Button(text='Home Page', a=button_div, classes=button_classes, click=button_click_Home)
@@ -146,14 +140,14 @@ def form_registration():
 @jp.SetRoute('/home')
 async def home(request):
     wp = jp.WebPage(data={'text': 'Initial text'})
-    wp.display_url = '/Home-List of Application'
+    wp.display_url= '/Home-List of Application'
 
-    cluster = MongoClient(
-        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient( "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
     db = cluster["jobhuntbuddy"]
     collection = db["cache"]
     result = collection.find_one()
     jp.Div(text=result["_id"], a=wp, classes='text-lg m-1 p-1')
+
 
     def add_application(self, msg):
         msg.page.redirect = "/application"
@@ -166,11 +160,10 @@ async def home(request):
 
     input_classes = "m-2 bg-gray-200 appearance-none border-2 border-gray-200 rounded xtw-64 py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
 
-    cluster = MongoClient(
-        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient( "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
     db = cluster["jobhuntbuddy"]
     collection = db["UserActivityList"]
-    results = collection.find({"username": result["_id"]})
+    results= collection.find({"username":result["_id"]})
     for result in results:
         jp.Div(text=result["companyname"], classes=input_classes, a=wp)
         jp.Div(text=result["companywebsite"], classes=input_classes, a=wp)
@@ -196,8 +189,7 @@ def form_application(request):
     button_div = jp.Div(classes='flex m-4 flex-wrap', a=wp)
     jp.Button(text='Logout', a=button_div, classes=button_classes, click=logout_action)
 
-    cluster = MongoClient(
-        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient( "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
     db = cluster["jobhuntbuddy"]
     collection = db["cache"]
     result = collection.find_one()
@@ -222,39 +214,41 @@ def form_application(request):
 
     user_label4 = jp.Label(text='Job Title',
                            classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
-    in4 = jp.Input(placeholder='Input valid Email', a=form1, classes='form-input')
+    in4= jp.Input(placeholder='Input valid Email', a=form1, classes='form-input')
     user_label4.for_component = in4
 
     user_label5 = jp.Label(text='Job Description',
                            classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
-    in5 = jp.Textarea(placeholder='Input the job responsibility and Requirement here', a=form1, classes='form-input')
+    in5 =jp.Textarea(placeholder='Input the job responsibility and Requirement here', a=form1, classes='form-input')
     user_label5.for_component = in5
 
     user_label6 = jp.Label(text='Salary',
                            classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
-    in6 = jp.Input(placeholder='Salary Range (If posted)', a=form1, classes='form-input')
-    user_label6.for_component = in6
+    in6= jp.Input(placeholder='Salary Range (If posted)', a=form1, classes='form-input')
+    user_label6.for_component=in6
 
     user_label7 = jp.Label(text='Website',
                            classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
-    in7 = jp.Input(placeholder='Company website', a=form1, classes='form-input')
-    user_label7.for_component = in7
+    in7= jp.Input(placeholder='Company website', a=form1, classes='form-input')
+    user_label7.for_component=in7
+
 
     user_label8 = jp.Label(text='Application Source',
                            classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
-    in8 = jp.Input(placeholder='Where did you find and applied for this job', a=form1, classes='form-input')
-    user_label8.for_component = in8
+    in8= jp.Input(placeholder='Where did you find and applied for this job', a=form1, classes='form-input')
+    user_label8.for_component =in8
 
     user_label10 = jp.Label(text='Application Date mm/DD/YYYY',
-                            classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
-    in10 = jp.Input(placeholder='Date applied on', a=form1, classes='form-input')
+                           classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
+    in10= jp.Input(placeholder='Date applied on', a=form1, classes='form-input')
     user_label10.for_component = in10
 
     user_label9 = jp.Label(text='Cover Letter',
                            classes='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2', a=form1)
-    in9 = user_label9.for_component = jp.Textarea(placeholder='Put here if you want to store', a=form1,
-                                                  classes='form-input')
+    in9=user_label9.for_component = jp.Textarea(placeholder='Put here if you want to store', a=form1,
+                                         classes='form-input')
     user_label9.for_component = in9
+
 
     submit_button = jp.Input(value='Save', type='submit', a=form1, classes=button_classes)
 
@@ -262,17 +256,15 @@ def form_application(request):
     def submit_form(self, msg):
         print(msg)
         print(in1.value)
-        cluster = MongoClient(
-            "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+        cluster = MongoClient("mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
         db = cluster["jobhuntbuddy"]
         collection = db["UserActivityList"]
-        collection_cache = db["cache"]
+        collection_cache=db["cache"]
 
-        username = collection_cache.find_one();
+        username= collection_cache.find_one();
 
-        post_apps = {"username": username["_id"], "companyname": in1.value, "companywebsite": in7.value,
-                     "email": in3.value, "jobtitle": in4.value, "address": in2.value, "date": in10.value,
-                     "description": in5.value, "salary": in6.value, "coverletter": in9.value, "source": in8.value}
+        post_apps = {"username":username["_id"] ,"companyname":in1.value , "companywebsite": in7.value , "email":in3.value  , "jobtitle": in4.value , "address": in2.value , "date":in10.value ,
+                "description":in5.value ,"salary": in6.value ,"coverletter": in9.value ,"source":in8.value }
         collection.insert_one(post_apps)
         jp.Div(text='Your Application summary Successfully saved', classes=button_classes, a=wp)
         msg.page.redirect = "/home"
@@ -281,25 +273,21 @@ def form_application(request):
 
     return wp
 
-
 @jp.SetRoute('/logout')
 async def logout(request):
     wp = jp.WebPage()
-    wp.display_url = '/JobHuntBudy_Logout'
+    wp.display_url= '/JobHuntBudy_Logout'
+
 
     input_classes = "m-2 bg-gray-200 appearance-none border-2 border-gray-200 rounded xtw-64 py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
 
-    cluster = MongoClient(
-        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient( "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
     db = cluster["jobhuntbuddy"]
     collection = db["cache"]
     collection.drop()
     jp.Div(text="Thank you for Logout!!!!", classes=input_classes, a=wp)
 
     return wp
-
-
-
 
 def main(argv=None):
     jp.justpy(user_login)
