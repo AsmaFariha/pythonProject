@@ -1,1 +1,1 @@
-web: python main.py:main --heroku -d
+web: python main.py:user_login --heroku -d
